@@ -1,5 +1,7 @@
 import "dart:math";
 
+const sourceText = "Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado.";
+
 class Meeting {
   num id;
   String name;
@@ -7,7 +9,6 @@ class Meeting {
   List<Task> todoList;
   List<Task> doingList;
   List<Task> doneList;
-  List<Task> obsList;
 }
 
 class Task {
@@ -17,6 +18,11 @@ class Task {
   Task(num id, String text) {
     this.id = id;
     this.text = text;
+  }
+
+  @override
+  String toString() {
+    return this.text;
   }
 }
 
@@ -37,11 +43,9 @@ Meeting _buildOne(int index){
   m.name = "Reunião " + index.toString();
   m.dateTime = DateTime.now();
   var r = Random();
-  m.todoList = _buildManyTasks(r.nextInt(10), "TODO ");
-  m.doingList = _buildManyTasks(r.nextInt(10), "DOING ");
-  m.doneList = _buildManyTasks(r.nextInt(10), "DONE ");
-  m.obsList = _buildManyTasks(r.nextInt(10), "OBS ");
-
+  m.todoList = _buildManyTasks(r.nextInt(10), "TODOs ");
+  m.doingList = _buildManyTasks(r.nextInt(10), "DOINGs ");
+  m.doneList = _buildManyTasks(r.nextInt(10), "DONEs ");
   print(m);
 
   return m;
@@ -49,12 +53,14 @@ Meeting _buildOne(int index){
 
 List<Task> _buildManyTasks(int qtd, String prefix) {
   List<Task> listAll = [];
+  var r = Random();
   for(var i = 0; i < qtd; i++) {
-    listAll.add(_buildOneTask(i, prefix));
+    var textSize = r.nextInt(sourceText.length - 16) + 15;
+    listAll.add(_buildOneTask(i, prefix + sourceText.substring(0, textSize)));
   }
   return listAll;
 }
 
-Task _buildOneTask(int index, String prefix) {
-  return Task(index, prefix + index.toString());
+Task _buildOneTask(int index, String text) {
+  return Task(index, text);
 }

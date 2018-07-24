@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: "Reuniões",
       home: ListMeetings(),
     );
-  }  
+  }
 }
 
 class ListMeetings extends StatefulWidget {

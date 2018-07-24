@@ -62,12 +62,6 @@ class MeetingTile {
                       style: TextStyle(color: Colors.grey, fontSize: 10.0),
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      _meeting.obsList.length.toString() + " OBS", 
-                      style: TextStyle(color: Colors.grey, fontSize: 10.0),
-                    ),
-                  ),
                 ],
               ),
               padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
