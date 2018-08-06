@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:date_format/date_format.dart';
 
 import '../model/meeting.dart';
-import './meeting-edition.dart';
+import './meeting-home.dart';
 
 class MeetingTile {
 
@@ -34,7 +34,7 @@ class MeetingTile {
                     ),
                   ),
                   Text(
-                    formatDate(_meeting.dateTime, [d, '/', m, '/', yy]),
+                    formatDate(_meeting.dateTime, [dd, '/', mm, '/', yy]),
                     style: TextStyle(color: Colors.grey),
                   )
                 ],

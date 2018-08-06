@@ -21,8 +21,7 @@ class ListMeetings extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return ListMeetingsState();
-  }
-  
+  }  
 }
 
 class ListMeetingsState extends State<ListMeetings> {
@@ -31,7 +30,7 @@ class ListMeetingsState extends State<ListMeetings> {
 
   Widget _buildMeetingList() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16.0),
+      padding: EdgeInsets.all(16.0),
       itemBuilder: (context, i) {
         return _buildRow(_listAllMeetings[i]);
       },
