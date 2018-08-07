@@ -3,6 +3,8 @@ import 'package:date_format/date_format.dart';
 
 import '../model/meeting.dart';
 
+enum TaskType { todo, doing, done}
+
 class MeetingEdition extends StatefulWidget {
 
   final Meeting _meeting;
@@ -35,11 +37,11 @@ class MeetingEditionState extends State<MeetingEdition> {
       children: <Widget>[
         _buildInfoCard(),
         _buildListHeader("TODO", Colors.yellow[600]),
-        _buildTaskList(this.widget._meeting.todoList),
+        _buildTaskList(this.widget._meeting.todoList, TaskType.todo),
         _buildListHeader("DOING", Colors.blue),
-        _buildTaskList(this.widget._meeting.doingList),
+        _buildTaskList(this.widget._meeting.doingList, TaskType.doing),
         _buildListHeader("DONE", Colors.green),
-        _buildTaskList(this.widget._meeting.doneList),
+        _buildTaskList(this.widget._meeting.doneList, TaskType.done),
       ],
     );
   }
@@ -73,18 +75,102 @@ class MeetingEditionState extends State<MeetingEdition> {
     );
   }
 
-  Widget _buildTaskList(List<Task> taskList) {
+  Widget _buildTaskList(List<Task> taskList, TaskType type) {
     return Container(
       child: Column(
         children: 
           List.generate(taskList.length, (index) {
-            return ListTile(
-              leading: const Icon(Icons.arrow_left),
-              title: Text(taskList[index].text),
-              trailing: const Icon(Icons.arrow_right),
-            );
+            // return ListTile(
+            //   leading: _buildLeadingIcon(backwardCallback),
+            //   title: Text(taskList[index].text),
+            //   trailing: _buildTrailingIcon(fowardCallback),
+            //   onTap: () {print("onTAP");},
+            // );
+            if(type == TaskType.todo) {
+              return _buildTodoRow(taskList[index]);
+            } else if(type == TaskType.doing) {
+              return _buildDoingRow(taskList[index]);
+            } else {
+              return _buildDoneRow(taskList[index]);
+            }
           })
       ),
     );
+  }
+
+  Widget _buildTodoRow(Task t) {
+    return Row(
+      children: <Widget>[
+        Expanded(child: Text(t.text)),
+        IconButton(
+          icon: Icon(Icons.arrow_forward),
+          onPressed: () {
+            _popTodoList(t); 
+            _pushDoingList(t);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDoingRow(Task t) {
+    return Row(
+      children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            _popDoingList(t); 
+            _pushTodoList(t);
+          },
+        ),
+        Expanded(child: Text(t.text)),
+        IconButton(
+          icon: Icon(Icons.arrow_forward),
+          onPressed: () {
+            _popDoingList(t); 
+            _pushDoneList(t);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDoneRow(Task t) {
+    return Row(
+      children: <Widget>[
+        IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            _popDoneList(t); 
+            _pushDoingList(t);
+          },
+        ),
+        Expanded(child: Text(t.text)),
+      ],
+    );
+  }
+
+  _pushTodoList(Task t) {
+    print("Inserindo a task " + t.id.toString() + " na lista TODO");
+  }
+
+  _popTodoList(Task t) {
+    print("Removendo a task " + t.id.toString() + " da lista TODO");
+  }
+
+  _pushDoingList(Task t) {
+    print("Inserindo a task " + t.id.toString() + " na lista DOING");
+  }
+
+  _popDoingList(Task t) {
+    print("Removendo a task " + t.id.toString() + " da lista DOING");
+  }
+
+  _pushDoneList(Task t) {
+    print("Inserindo a task " + t.id.toString() + " na lista DONE");
+  }
+
+  _popDoneList(Task t) {
+    print("Removendo a task " + t.id.toString() + " da lista DONE");
   }
 }
