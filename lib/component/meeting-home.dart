@@ -38,9 +38,9 @@ class MeetingEditionState extends State<MeetingEdition> {
         _buildInfoCard(),
         _buildListHeader("TODO", Colors.yellow[600]),
         _buildTaskList(this.widget._meeting.todoList, TaskType.todo),
-        _buildListHeader("DOING", Colors.blue),
+        _buildListHeader("DOING", Colors.blue[600]),
         _buildTaskList(this.widget._meeting.doingList, TaskType.doing),
-        _buildListHeader("DONE", Colors.green),
+        _buildListHeader("DONE", Colors.green[600]),
         _buildTaskList(this.widget._meeting.doneList, TaskType.done),
       ],
     );
@@ -71,7 +71,7 @@ class MeetingEditionState extends State<MeetingEdition> {
         ), 
         borderRadius: BorderRadius.circular(15.0)
       ),
-      margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
+      margin: EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
     );
   }
 
@@ -80,12 +80,6 @@ class MeetingEditionState extends State<MeetingEdition> {
       child: Column(
         children: 
           List.generate(taskList.length, (index) {
-            // return ListTile(
-            //   leading: _buildLeadingIcon(backwardCallback),
-            //   title: Text(taskList[index].text),
-            //   trailing: _buildTrailingIcon(fowardCallback),
-            //   onTap: () {print("onTAP");},
-            // );
             if(type == TaskType.todo) {
               return _buildTodoRow(taskList[index]);
             } else if(type == TaskType.doing) {
@@ -93,60 +87,90 @@ class MeetingEditionState extends State<MeetingEdition> {
             } else {
               return _buildDoneRow(taskList[index]);
             }
-          })
+          }),
       ),
     );
   }
 
   Widget _buildTodoRow(Task t) {
-    return Row(
-      children: <Widget>[
-        Expanded(child: Text(t.text)),
-        IconButton(
-          icon: Icon(Icons.arrow_forward),
-          onPressed: () {
-            _popTodoList(t); 
-            _pushDoingList(t);
-          },
+    return Container(
+      child: Row(
+        children: <Widget>[
+          Expanded(child: Text(t.text)),
+          IconButton(
+            icon: Icon(Icons.arrow_forward),
+            onPressed: () {
+              _popTodoList(t); 
+              _pushDoingList(t);
+            },
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+      margin: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.yellow[700]
         ),
-      ],
+        color: Colors.yellow[100]
+      ),
     );
   }
 
   Widget _buildDoingRow(Task t) {
-    return Row(
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            _popDoingList(t); 
-            _pushTodoList(t);
-          },
+    return Container(
+      child: Row(
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              _popDoingList(t); 
+              _pushTodoList(t);
+            },
+          ),
+          Expanded(child: Text(t.text)),
+          IconButton(
+            icon: Icon(Icons.arrow_forward),
+            onPressed: () {
+              _popDoingList(t); 
+              _pushDoneList(t);
+            },
+          ),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+      margin: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.blue[700]
         ),
-        Expanded(child: Text(t.text)),
-        IconButton(
-          icon: Icon(Icons.arrow_forward),
-          onPressed: () {
-            _popDoingList(t); 
-            _pushDoneList(t);
-          },
-        ),
-      ],
+        color: Colors.blue[100]
+      ),
     );
   }
 
   Widget _buildDoneRow(Task t) {
-    return Row(
-      children: <Widget>[
-        IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            _popDoneList(t); 
-            _pushDoingList(t);
-          },
+    return Container(
+      child: Row(
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              _popDoneList(t); 
+              _pushDoingList(t);
+            },
+          ),
+          Expanded(child: Text(t.text)),
+        ],
+      ),
+      padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+      margin: EdgeInsets.all(5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.green[700]
         ),
-        Expanded(child: Text(t.text)),
-      ],
+        color: Colors.green[100]
+      ),
     );
   }
 
