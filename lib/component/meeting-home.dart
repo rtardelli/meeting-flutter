@@ -36,11 +36,11 @@ class MeetingEditionState extends State<MeetingEdition> {
       padding: const EdgeInsets.all(10.0),
       children: <Widget>[
         _buildInfoCard(),
-        _buildListHeader("TODO", Colors.yellow[600]),
+        _buildListHeader("TODO (" + this.widget._meeting.todoList.length.toString() + ")", Colors.yellow[600]),
         _buildTaskList(this.widget._meeting.todoList, TaskType.todo),
-        _buildListHeader("DOING", Colors.blue[600]),
+        _buildListHeader("DOING (" + this.widget._meeting.doingList.length.toString() + ")", Colors.blue[600]),
         _buildTaskList(this.widget._meeting.doingList, TaskType.doing),
-        _buildListHeader("DONE", Colors.green[600]),
+        _buildListHeader("DONE (" + this.widget._meeting.doneList.length.toString() + ")", Colors.green[600]),
         _buildTaskList(this.widget._meeting.doneList, TaskType.done),
       ],
     );
@@ -175,26 +175,44 @@ class MeetingEditionState extends State<MeetingEdition> {
   }
 
   _pushTodoList(Task t) {
-    print("Inserindo a task " + t.id.toString() + " na lista TODO");
+    setState(() {
+          this.widget._meeting.todoList.add(t);
+          print("Inserindo a task " + t.id.toString() + " na lista TODO");
+        });
   }
 
   _popTodoList(Task t) {
-    print("Removendo a task " + t.id.toString() + " da lista TODO");
+    setState(() {
+          this.widget._meeting.todoList.remove(t);
+          print("Removendo a task " + t.id.toString() + " na lista TODO");
+        });
   }
 
   _pushDoingList(Task t) {
-    print("Inserindo a task " + t.id.toString() + " na lista DOING");
+    setState(() {
+          this.widget._meeting.doingList.add(t);
+          print("Inserindo a task " + t.id.toString() + " na lista DOING");
+        });
   }
 
   _popDoingList(Task t) {
-    print("Removendo a task " + t.id.toString() + " da lista DOING");
+    setState(() {
+          this.widget._meeting.doingList.remove(t);
+          print("Removendo a task " + t.id.toString() + " na lista DOING");
+        });
   }
 
   _pushDoneList(Task t) {
-    print("Inserindo a task " + t.id.toString() + " na lista DONE");
+    setState(() {
+          this.widget._meeting.doneList.add(t);
+          print("Inserindo a task " + t.id.toString() + " na lista DONE");
+        });
   }
 
   _popDoneList(Task t) {
-    print("Removendo a task " + t.id.toString() + " da lista DONE");
+    setState(() {
+          this.widget._meeting.doneList.remove(t);
+          print("Removendo a task " + t.id.toString() + " na lista DONE");
+        });
   }
 }
