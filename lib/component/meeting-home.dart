@@ -38,10 +38,13 @@ class MeetingEditionState extends State<MeetingEdition> {
         _buildInfoCard(),
         _buildListHeader("TODO (" + this.widget._meeting.todoList.length.toString() + ")", Colors.yellow[600]),
         _buildTaskList(this.widget._meeting.todoList, TaskType.todo),
+        _addTodoButton(),
         _buildListHeader("DOING (" + this.widget._meeting.doingList.length.toString() + ")", Colors.blue[600]),
         _buildTaskList(this.widget._meeting.doingList, TaskType.doing),
+        _addDoingButton(),
         _buildListHeader("DONE (" + this.widget._meeting.doneList.length.toString() + ")", Colors.green[600]),
         _buildTaskList(this.widget._meeting.doneList, TaskType.done),
+        _addDoneButton(),
       ],
     );
   }
@@ -93,10 +96,29 @@ class MeetingEditionState extends State<MeetingEdition> {
   }
 
   Widget _buildTodoRow(Task t) {
+    // TODO: Revisar a criação do TextEditingController para dar dispose junto com o Widget. Opção 1: ter um controller e o listener ser compartilhado
+    final _textController = TextEditingController(text: t.text);
+
     return Container(
       child: Row(
         children: <Widget>[
-          Expanded(child: Text(t.text)),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+              child: EditableText(
+                keyboardType: TextInputType.multiline,
+                textAlign: TextAlign.start,
+                controller: _textController,
+                maxLines: null,
+                focusNode: FocusNode(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                ),
+                cursorColor: Colors.blue,
+              ),
+            )
+          ),
           IconButton(
             icon: Icon(Icons.arrow_forward),
             onPressed: () {
@@ -106,18 +128,20 @@ class MeetingEditionState extends State<MeetingEdition> {
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
       margin: EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.yellow[700]
+          color: Colors.yellow[700],
+          width: 2.0
         ),
-        color: Colors.yellow[100]
       ),
     );
   }
 
   Widget _buildDoingRow(Task t) {
+    // TODO: Revisar a criação do TextEditingController para dar dispose junto com o Widget. Opção 1: ter um controller e o listener ser compartilhado
+    final _textController = TextEditingController(text: t.text);
+
     return Container(
       child: Row(
         children: <Widget>[
@@ -128,7 +152,23 @@ class MeetingEditionState extends State<MeetingEdition> {
               _pushTodoList(t);
             },
           ),
-          Expanded(child: Text(t.text)),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+              child: EditableText(
+                keyboardType: TextInputType.multiline,
+                textAlign: TextAlign.start,
+                controller: _textController,
+                maxLines: null,
+                focusNode: FocusNode(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                ),
+                cursorColor: Colors.blue,
+              ),
+            ),
+          ),
           IconButton(
             icon: Icon(Icons.arrow_forward),
             onPressed: () {
@@ -138,18 +178,19 @@ class MeetingEditionState extends State<MeetingEdition> {
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
       margin: EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.blue[700]
         ),
-        color: Colors.blue[100]
       ),
     );
   }
 
   Widget _buildDoneRow(Task t) {
+    // TODO: Revisar a criação do TextEditingController para dar dispose junto com o Widget. Opção 1: ter um controller e o listener ser compartilhado
+    final _textController = TextEditingController(text: t.text);
+
     return Container(
       child: Row(
         children: <Widget>[
@@ -160,16 +201,30 @@ class MeetingEditionState extends State<MeetingEdition> {
               _pushDoingList(t);
             },
           ),
-          Expanded(child: Text(t.text)),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
+              child: EditableText(
+                keyboardType: TextInputType.multiline,
+                textAlign: TextAlign.start,
+                controller: _textController,
+                maxLines: null,
+                focusNode: FocusNode(),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 14.0,
+                ),
+                cursorColor: Colors.blue,
+              ),
+            ),
+          ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
       margin: EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.green[700]
         ),
-        color: Colors.green[100]
       ),
     );
   }
@@ -214,5 +269,44 @@ class MeetingEditionState extends State<MeetingEdition> {
           this.widget._meeting.doneList.remove(t);
           print("Removendo a task " + t.id.toString() + " na lista DONE");
         });
+  }
+
+  _addTodoButton() {
+    return IconButton(
+            icon: Icon(Icons.add_circle_outline),
+            iconSize: 50.0,
+            color: Colors.yellow[600],
+            splashColor: Colors.yellow[200],
+            onPressed: () {
+              // Ação para adicionar Todo task
+              print("ADD Todo task");
+            },
+          );
+  }
+
+  _addDoingButton() {
+    return IconButton(
+            icon: Icon(Icons.add_circle_outline),
+            iconSize: 50.0,
+            color: Colors.blue[600],
+            splashColor: Colors.blue[200],
+            onPressed: () {
+              // Ação para adicionar Doing task
+              print("ADD Doing task");
+            },
+          );
+  }
+
+  _addDoneButton() {
+    return IconButton(
+            icon: Icon(Icons.add_circle_outline),
+            iconSize: 50.0,
+            color: Colors.green[600],
+            splashColor: Colors.green[200],
+            onPressed: () {
+              // Ação para adicionar Done task
+              print("ADD Done task");
+            },
+          );
   }
 }

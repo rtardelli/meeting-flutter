@@ -49,6 +49,14 @@ class ListMeetingsState extends State<ListMeetings> {
         title: Text('Meetings no Flutter'),
       ),
       body: _buildMeetingList(),
+      floatingActionButton: new FloatingActionButton(
+        elevation: 0.0,
+        child: new Icon(Icons.check),
+        backgroundColor: Colors.blue,
+        onPressed: (){
+          print("Deveria adicionar uma nova meeting");
+        }
+      ),
     );
   }
 }
